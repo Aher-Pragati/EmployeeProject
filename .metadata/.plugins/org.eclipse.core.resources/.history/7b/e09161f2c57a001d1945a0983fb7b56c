@@ -1,0 +1,37 @@
+package com.boot.repository;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import com.boot.entity.EmployeeEntity;
+
+
+@DataJpaTest
+public class EmployeeRepositoryTest {
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
+	@Test
+	@DisplayName("JUNIT test for save employee operation")
+	public void givenEmployeeObject_whenSaveEmployee_thenReturnedSavedEmployee()
+	{
+		EmployeeEntity employee = EmployeeEntity.builder()
+				                                .employeeName("Pragati")
+				                                .employeeAddress("Loni")
+				                                .employeeContactNumber(9403115257L)
+				                                .employeeSalary(45000)
+				                                .employeeEmail("pragati@gmail.com")
+				                                .employeeGender("Female")
+				                                .build();
+		
+		EmployeeEntity savedEmployee = this.employeeRepository.save(employee);
+		
+		
+		Assertions.assertThat(savedEmployee).isNotNull();
+		Assertions.assertThat(savedEmployee.getEmployeeId()).isGreaterThan(0);
+	}
+}
